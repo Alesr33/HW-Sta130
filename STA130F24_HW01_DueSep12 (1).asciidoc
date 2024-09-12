@@ -1,0 +1,1018 @@
++*In[5]:*+
+[source, ipython3]
+----
+
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+print(df)
+----
+
+
++*Out[5]:*+
+----
+     row_n        id      name  gender    species birthday personality  \
+0        2   admiral   Admiral    male       bird     1-27      cranky   
+1        3   agent-s   Agent S  female   squirrel      7-2       peppy   
+2        4     agnes     Agnes  female        pig     4-21        uchi   
+3        6        al        Al    male    gorilla    10-18        lazy   
+4        7   alfonso   Alfonso    male  alligator      6-9        lazy   
+..     ...       ...       ...     ...        ...      ...         ...   
+386    475    winnie    Winnie  female      horse     1-31       peppy   
+387    477  wolfgang  Wolfgang    male       wolf    11-25      cranky   
+388    480      yuka      Yuka  female      koala     7-20      snooty   
+389    481      zell      Zell    male       deer      6-7        smug   
+390    483    zucker    Zucker    male    octopus      3-8        lazy   
+
+                song    phrase            full_id  \
+0         Steep Hill   aye aye   villager-admiral   
+1            DJ K.K.  sidekick   villager-agent-s   
+2         K.K. House   snuffle     villager-agnes   
+3         Steep Hill   Ayyeeee        villager-al   
+4        Forest Life  it'sa me   villager-alfonso   
+..               ...       ...                ...   
+386         My Place    hay-OK    villager-winnie   
+387        K.K. Song   snarrrl  villager-wolfgang   
+388     Soulful K.K.   tsk tsk      villager-yuka   
+389         K.K. D&B     pronk      villager-zell   
+390  Spring Blossoms     bloop    villager-zucker   
+
+                                                   url  
+0    https://villagerdb.com/images/villagers/thumb/...  
+1    https://villagerdb.com/images/villagers/thumb/...  
+2    https://villagerdb.com/images/villagers/thumb/...  
+3    https://villagerdb.com/images/villagers/thumb/...  
+4    https://villagerdb.com/images/villagers/thumb/...  
+..                                                 ...  
+386  https://villagerdb.com/images/villagers/thumb/...  
+387  https://villagerdb.com/images/villagers/thumb/...  
+388  https://villagerdb.com/images/villagers/thumb/...  
+389  https://villagerdb.com/images/villagers/thumb/...  
+390  https://villagerdb.com/images/villagers/thumb/...  
+
+[391 rows x 11 columns]
+----
+
+
++*In[7]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+missing_values = df.isna().sum()
+print(missing_values)
+----
+
+
++*Out[7]:*+
+----
+row_n           0
+id              1
+name            0
+gender          0
+species         0
+birthday        0
+personality     0
+song           11
+phrase          0
+full_id         0
+url             0
+dtype: int64
+----
+
+
+
+
+
+
+
+
++*In[9]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+rows, columns = df.shape
+print(f"The dataset has {rows} rows and {columns} columns.")
+----
+
+
++*Out[9]:*+
+----
+The dataset has 391 rows and 11 columns.
+----
+
+
+
+
+
+
++*In[10]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+print("Summary of numerical columns:")
+print(df.describe())
+#This code is to show the mean, median, and other important data summarized of the data set
+----
+
+
++*Out[10]:*+
+----
+Summary of numerical columns:
+            row_n
+count  391.000000
+mean   239.902813
+std    140.702672
+min      2.000000
+25%    117.500000
+50%    240.000000
+75%    363.500000
+max    483.000000
+----
+
+
++*In[1]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+print("\nGeneral info on the dataset:")
+print(df.info())
+#This code is to show the column names, missing values, and the type of the data eg: if the data is an object, int, str, bool
+----
+
+
++*Out[1]:*+
+----
+
+General info on the dataset:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 391 entries, 0 to 390
+Data columns (total 11 columns):
+ #   Column       Non-Null Count  Dtype 
+---  ------       --------------  ----- 
+ 0   row_n        391 non-null    int64 
+ 1   id           390 non-null    object
+ 2   name         391 non-null    object
+ 3   gender       391 non-null    object
+ 4   species      391 non-null    object
+ 5   birthday     391 non-null    object
+ 6   personality  391 non-null    object
+ 7   song         380 non-null    object
+ 8   phrase       391 non-null    object
+ 9   full_id      391 non-null    object
+ 10  url          391 non-null    object
+dtypes: int64(1), object(10)
+memory usage: 33.7+ KB
+None
+----
+
+
++*In[5]:*+
+[source, ipython3]
+----
+print("\nValue counts for a specific column:")
+print(df.head(30)['name'].value_counts())
+#This code shows the number of data with the same name/value on a column. For this example, it shows the number in the column name
+# We use head to show more values on jupiter.
+----
+
+
++*Out[5]:*+
+----
+
+Value counts for a specific column:
+name
+Admiral     1
+Agent S     1
+Bea         1
+Barold      1
+Bangle      1
+Bam         1
+Baabara     1
+Axel        1
+Avery       1
+Ava         1
+Aurora      1
+Audie       1
+Astrid      1
+Apple       1
+Apollo      1
+Antonio     1
+Annalise    1
+Annalisa    1
+Ankha       1
+Anicotti    1
+Angus       1
+Anchovy     1
+Anabelle    1
+Amelia      1
+Alli        1
+Alice       1
+Alfonso     1
+Al          1
+Agnes       1
+Beardo      1
+Name: count, dtype: int64
+----
+
+
+
+
++*In[6]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv"
+df = pd.read_csv(url)
+print(df.head())
+----
+
+
++*Out[6]:*+
+----
+   survived  pclass     sex   age  sibsp  parch     fare embarked  class  \
+0         0       3    male  22.0      1      0   7.2500        S  Third   
+1         1       1  female  38.0      1      0  71.2833        C  First   
+2         1       3  female  26.0      0      0   7.9250        S  Third   
+3         1       1  female  35.0      1      0  53.1000        S  First   
+4         0       3    male  35.0      0      0   8.0500        S  Third   
+
+     who  adult_male deck  embark_town alive  alone  
+0    man        True  NaN  Southampton    no  False  
+1  woman       False    C    Cherbourg   yes  False  
+2  woman       False  NaN  Southampton   yes   True  
+3  woman       False    C  Southampton   yes  False  
+4    man        True  NaN  Southampton    no   True  
+----
+
+
++*In[10]:*+
+[source, ipython3]
+----
+df.shape
+----
+
+
++*Out[10]:*+
+----(891, 15)----
+
+
++*In[9]:*+
+[source, ipython3]
+----
+df.describe()
+----
+
+
++*Out[9]:*+
+----
+[cols=",,,,,,",options="header",]
+|===
+| |survived |pclass |age |sibsp |parch |fare
+|count |891.000000 |891.000000 |714.000000 |891.000000 |891.000000
+|891.000000
+
+|mean |0.383838 |2.308642 |29.699118 |0.523008 |0.381594 |32.204208
+
+|std |0.486592 |0.836071 |14.526497 |1.102743 |0.806057 |49.693429
+
+|min |0.000000 |1.000000 |0.420000 |0.000000 |0.000000 |0.000000
+
+|25% |0.000000 |2.000000 |20.125000 |0.000000 |0.000000 |7.910400
+
+|50% |0.000000 |3.000000 |28.000000 |0.000000 |0.000000 |14.454200
+
+|75% |1.000000 |3.000000 |38.000000 |1.000000 |0.000000 |31.000000
+
+|max |1.000000 |3.000000 |80.000000 |8.000000 |6.000000 |512.329200
+|===
+----
+
+
++*In[14]:*+
+[source, ipython3]
+----
+df.describe(include='all')
+----
+
+
++*Out[14]:*+
+----
+[cols=",,,,,,,,,,,,,,,",options="header",]
+|===
+| |survived |pclass |sex |age |sibsp |parch |fare |embarked |class |who
+|adult_male |deck |embark_town |alive |alone
+|count |891.000000 |891.000000 |891 |714.000000 |891.000000 |891.000000
+|891.000000 |889 |891 |891 |891 |203 |889 |891 |891
+
+|unique |NaN |NaN |2 |NaN |NaN |NaN |NaN |3 |3 |3 |2 |7 |3 |2 |2
+
+|top |NaN |NaN |male |NaN |NaN |NaN |NaN |S |Third |man |True |C
+|Southampton |no |True
+
+|freq |NaN |NaN |577 |NaN |NaN |NaN |NaN |644 |491 |537 |537 |59 |644
+|549 |537
+
+|mean |0.383838 |2.308642 |NaN |29.699118 |0.523008 |0.381594 |32.204208
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|std |0.486592 |0.836071 |NaN |14.526497 |1.102743 |0.806057 |49.693429
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|min |0.000000 |1.000000 |NaN |0.420000 |0.000000 |0.000000 |0.000000
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|25% |0.000000 |2.000000 |NaN |20.125000 |0.000000 |0.000000 |7.910400
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|50% |0.000000 |3.000000 |NaN |28.000000 |0.000000 |0.000000 |14.454200
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|75% |1.000000 |3.000000 |NaN |38.000000 |1.000000 |0.000000 |31.000000
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|max |1.000000 |3.000000 |NaN |80.000000 |8.000000 |6.000000 |512.329200
+|NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+|===
+----
+
+
++*In[11]:*+
+[source, ipython3]
+----
+df.columns
+----
+
+
++*Out[11]:*+
+----Index(['survived', 'pclass', 'sex', 'age', 'sibsp', 'parch', 'fare',
+       'embarked', 'class', 'who', 'adult_male', 'deck', 'embark_town',
+       'alive', 'alone'],
+      dtype='object')----
+
+
++*In[13]:*+
+[source, ipython3]
+----
+df.isna().sum()
+----
+
+
++*Out[13]:*+
+----survived         0
+pclass           0
+sex              0
+age            177
+sibsp            0
+parch            0
+fare             0
+embarked         2
+class            0
+who              0
+adult_male       0
+deck           688
+embark_town      2
+alive            0
+alone            0
+dtype: int64----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
++*In[26]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+df.describe(include='all')
+#Before
+----
+
+
++*Out[26]:*+
+----
+[cols=",,,,,,,,,,,",options="header",]
+|===
+| |row_n |id |name |gender |species |birthday |personality |song |phrase
+|full_id |url
+|count |391.000000 |390 |391 |391 |391 |391 |391 |380 |391 |391 |391
+
+|unique |NaN |390 |391 |2 |35 |361 |8 |92 |388 |391 |391
+
+|top |NaN |admiral |Admiral |male |cat |1-27 |lazy |K.K. Country |wee
+one |villager-admiral |https://villagerdb.com/images/villagers/thumb/...
+
+|freq |NaN |1 |1 |204 |23 |2 |60 |10 |2 |1 |1
+
+|mean |239.902813 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|std |140.702672 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|min |2.000000 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|25% |117.500000 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|50% |240.000000 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|75% |363.500000 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+
+|max |483.000000 |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN |NaN
+|===
+----
+
+
++*In[25]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+del df['id']
+del df['name']
+del df['gender']
+del df['species']
+del df['birthday']
+del df['personality']
+del df['song']
+del df['phrase']
+del df['full_id']
+del df['url']
+df.dropna()
+df.describe(include='all')
+#After
+----
+
+
++*Out[25]:*+
+----
+[cols=",",options="header",]
+|===
+| |row_n
+|count |391.000000
+|mean |239.902813
+|std |140.702672
+|min |2.000000
+|25% |117.500000
+|50% |240.000000
+|75% |363.500000
+|max |483.000000
+|===
+----
+
+
+
+
+
+
+
+
+
+
++*In[33]:*+
+[source, ipython3]
+----
+import pandas as pd
+columns = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class']
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+df = pd.read_csv(url, header=None, names=columns)
+print(df.head(40))
+----
+
+
++*Out[33]:*+
+----
+    sepal_length  sepal_width  petal_length  petal_width        class
+0            5.1          3.5           1.4          0.2  Iris-setosa
+1            4.9          3.0           1.4          0.2  Iris-setosa
+2            4.7          3.2           1.3          0.2  Iris-setosa
+3            4.6          3.1           1.5          0.2  Iris-setosa
+4            5.0          3.6           1.4          0.2  Iris-setosa
+5            5.4          3.9           1.7          0.4  Iris-setosa
+6            4.6          3.4           1.4          0.3  Iris-setosa
+7            5.0          3.4           1.5          0.2  Iris-setosa
+8            4.4          2.9           1.4          0.2  Iris-setosa
+9            4.9          3.1           1.5          0.1  Iris-setosa
+10           5.4          3.7           1.5          0.2  Iris-setosa
+11           4.8          3.4           1.6          0.2  Iris-setosa
+12           4.8          3.0           1.4          0.1  Iris-setosa
+13           4.3          3.0           1.1          0.1  Iris-setosa
+14           5.8          4.0           1.2          0.2  Iris-setosa
+15           5.7          4.4           1.5          0.4  Iris-setosa
+16           5.4          3.9           1.3          0.4  Iris-setosa
+17           5.1          3.5           1.4          0.3  Iris-setosa
+18           5.7          3.8           1.7          0.3  Iris-setosa
+19           5.1          3.8           1.5          0.3  Iris-setosa
+20           5.4          3.4           1.7          0.2  Iris-setosa
+21           5.1          3.7           1.5          0.4  Iris-setosa
+22           4.6          3.6           1.0          0.2  Iris-setosa
+23           5.1          3.3           1.7          0.5  Iris-setosa
+24           4.8          3.4           1.9          0.2  Iris-setosa
+25           5.0          3.0           1.6          0.2  Iris-setosa
+26           5.0          3.4           1.6          0.4  Iris-setosa
+27           5.2          3.5           1.5          0.2  Iris-setosa
+28           5.2          3.4           1.4          0.2  Iris-setosa
+29           4.7          3.2           1.6          0.2  Iris-setosa
+30           4.8          3.1           1.6          0.2  Iris-setosa
+31           5.4          3.4           1.5          0.4  Iris-setosa
+32           5.2          4.1           1.5          0.1  Iris-setosa
+33           5.5          4.2           1.4          0.2  Iris-setosa
+34           4.9          3.1           1.5          0.1  Iris-setosa
+35           5.0          3.2           1.2          0.2  Iris-setosa
+36           5.5          3.5           1.3          0.2  Iris-setosa
+37           4.9          3.1           1.5          0.1  Iris-setosa
+38           4.4          3.0           1.3          0.2  Iris-setosa
+39           5.1          3.4           1.5          0.2  Iris-setosa
+----
+
+
++*In[29]:*+
+[source, ipython3]
+----
+df.groupby("sepal_length")["sepal_width"].describe()
+----
+
+
++*Out[29]:*+
+----
+[cols=",,,,,,,,",options="header",]
+|===
+| |count |mean |std |min |25% |50% |75% |max
+|sepal_length | | | | | | | |
+|4.3 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|4.4 |3.0 |3.033333 |0.152753 |2.9 |2.950 |3.00 |3.100 |3.2
+|4.5 |1.0 |2.300000 |NaN |2.3 |2.300 |2.30 |2.300 |2.3
+|4.6 |4.0 |3.325000 |0.221736 |3.1 |3.175 |3.30 |3.450 |3.6
+|4.7 |2.0 |3.200000 |0.000000 |3.2 |3.200 |3.20 |3.200 |3.2
+|4.8 |5.0 |3.180000 |0.204939 |3.0 |3.000 |3.10 |3.400 |3.4
+|4.9 |6.0 |2.866667 |0.326599 |2.4 |2.625 |3.05 |3.100 |3.1
+|5.0 |10.0 |3.120000 |0.543241 |2.0 |3.050 |3.35 |3.475 |3.6
+|5.1 |9.0 |3.477778 |0.411636 |2.5 |3.400 |3.50 |3.800 |3.8
+|5.2 |4.0 |3.425000 |0.573730 |2.7 |3.225 |3.45 |3.650 |4.1
+|5.3 |1.0 |3.700000 |NaN |3.7 |3.700 |3.70 |3.700 |3.7
+|5.4 |6.0 |3.550000 |0.350714 |3.0 |3.400 |3.55 |3.850 |3.9
+|5.5 |7.0 |2.842857 |0.723089 |2.3 |2.400 |2.50 |3.050 |4.2
+|5.6 |6.0 |2.816667 |0.194079 |2.5 |2.725 |2.85 |2.975 |3.0
+|5.7 |8.0 |3.100000 |0.656832 |2.5 |2.750 |2.85 |3.200 |4.4
+|5.8 |7.0 |2.885714 |0.494734 |2.6 |2.700 |2.70 |2.750 |4.0
+|5.9 |3.0 |3.066667 |0.115470 |3.0 |3.000 |3.00 |3.100 |3.2
+|6.0 |6.0 |2.733333 |0.471876 |2.2 |2.325 |2.80 |2.975 |3.4
+|6.1 |6.0 |2.850000 |0.151658 |2.6 |2.800 |2.85 |2.975 |3.0
+|6.2 |4.0 |2.825000 |0.492443 |2.2 |2.650 |2.85 |3.025 |3.4
+|6.3 |9.0 |2.855556 |0.400347 |2.3 |2.500 |2.80 |3.300 |3.4
+|6.4 |7.0 |2.957143 |0.207020 |2.7 |2.800 |2.90 |3.150 |3.2
+|6.5 |5.0 |3.000000 |0.141421 |2.8 |3.000 |3.00 |3.000 |3.2
+|6.6 |2.0 |2.950000 |0.070711 |2.9 |2.925 |2.95 |2.975 |3.0
+|6.7 |8.0 |3.050000 |0.250713 |2.5 |3.000 |3.10 |3.150 |3.3
+|6.8 |3.0 |3.000000 |0.200000 |2.8 |2.900 |3.00 |3.100 |3.2
+|6.9 |4.0 |3.125000 |0.050000 |3.1 |3.100 |3.10 |3.125 |3.2
+|7.0 |1.0 |3.200000 |NaN |3.2 |3.200 |3.20 |3.200 |3.2
+|7.1 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|7.2 |3.0 |3.266667 |0.305505 |3.0 |3.100 |3.20 |3.400 |3.6
+|7.3 |1.0 |2.900000 |NaN |2.9 |2.900 |2.90 |2.900 |2.9
+|7.4 |1.0 |2.800000 |NaN |2.8 |2.800 |2.80 |2.800 |2.8
+|7.6 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|7.7 |4.0 |3.050000 |0.525991 |2.6 |2.750 |2.90 |3.200 |3.8
+|7.9 |1.0 |3.800000 |NaN |3.8 |3.800 |3.80 |3.800 |3.8
+|===
+----
+
+
+
+
+
+
+
+
+
+
++*In[2]:*+
+[source, ipython3]
+----
+import pandas as pd
+columns = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class']
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+df = pd.read_csv(url, header=None, names=columns)
+df.describe()
+----
+
+
++*Out[2]:*+
+----
+[cols=",,,,",options="header",]
+|===
+| |sepal_length |sepal_width |petal_length |petal_width
+|count |150.000000 |150.000000 |150.000000 |150.000000
+|mean |5.843333 |3.054000 |3.758667 |1.198667
+|std |0.828066 |0.433594 |1.764420 |0.763161
+|min |4.300000 |2.000000 |1.000000 |0.100000
+|25% |5.100000 |2.800000 |1.600000 |0.300000
+|50% |5.800000 |3.000000 |4.350000 |1.300000
+|75% |6.400000 |3.300000 |5.100000 |1.800000
+|max |7.900000 |4.400000 |6.900000 |2.500000
+|===
+----
+
+
++*In[3]:*+
+[source, ipython3]
+----
+df.groupby("sepal_length")["sepal_width"].describe()
+----
+
+
++*Out[3]:*+
+----
+[cols=",,,,,,,,",options="header",]
+|===
+| |count |mean |std |min |25% |50% |75% |max
+|sepal_length | | | | | | | |
+|4.3 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|4.4 |3.0 |3.033333 |0.152753 |2.9 |2.950 |3.00 |3.100 |3.2
+|4.5 |1.0 |2.300000 |NaN |2.3 |2.300 |2.30 |2.300 |2.3
+|4.6 |4.0 |3.325000 |0.221736 |3.1 |3.175 |3.30 |3.450 |3.6
+|4.7 |2.0 |3.200000 |0.000000 |3.2 |3.200 |3.20 |3.200 |3.2
+|4.8 |5.0 |3.180000 |0.204939 |3.0 |3.000 |3.10 |3.400 |3.4
+|4.9 |6.0 |2.866667 |0.326599 |2.4 |2.625 |3.05 |3.100 |3.1
+|5.0 |10.0 |3.120000 |0.543241 |2.0 |3.050 |3.35 |3.475 |3.6
+|5.1 |9.0 |3.477778 |0.411636 |2.5 |3.400 |3.50 |3.800 |3.8
+|5.2 |4.0 |3.425000 |0.573730 |2.7 |3.225 |3.45 |3.650 |4.1
+|5.3 |1.0 |3.700000 |NaN |3.7 |3.700 |3.70 |3.700 |3.7
+|5.4 |6.0 |3.550000 |0.350714 |3.0 |3.400 |3.55 |3.850 |3.9
+|5.5 |7.0 |2.842857 |0.723089 |2.3 |2.400 |2.50 |3.050 |4.2
+|5.6 |6.0 |2.816667 |0.194079 |2.5 |2.725 |2.85 |2.975 |3.0
+|5.7 |8.0 |3.100000 |0.656832 |2.5 |2.750 |2.85 |3.200 |4.4
+|5.8 |7.0 |2.885714 |0.494734 |2.6 |2.700 |2.70 |2.750 |4.0
+|5.9 |3.0 |3.066667 |0.115470 |3.0 |3.000 |3.00 |3.100 |3.2
+|6.0 |6.0 |2.733333 |0.471876 |2.2 |2.325 |2.80 |2.975 |3.4
+|6.1 |6.0 |2.850000 |0.151658 |2.6 |2.800 |2.85 |2.975 |3.0
+|6.2 |4.0 |2.825000 |0.492443 |2.2 |2.650 |2.85 |3.025 |3.4
+|6.3 |9.0 |2.855556 |0.400347 |2.3 |2.500 |2.80 |3.300 |3.4
+|6.4 |7.0 |2.957143 |0.207020 |2.7 |2.800 |2.90 |3.150 |3.2
+|6.5 |5.0 |3.000000 |0.141421 |2.8 |3.000 |3.00 |3.000 |3.2
+|6.6 |2.0 |2.950000 |0.070711 |2.9 |2.925 |2.95 |2.975 |3.0
+|6.7 |8.0 |3.050000 |0.250713 |2.5 |3.000 |3.10 |3.150 |3.3
+|6.8 |3.0 |3.000000 |0.200000 |2.8 |2.900 |3.00 |3.100 |3.2
+|6.9 |4.0 |3.125000 |0.050000 |3.1 |3.100 |3.10 |3.125 |3.2
+|7.0 |1.0 |3.200000 |NaN |3.2 |3.200 |3.20 |3.200 |3.2
+|7.1 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|7.2 |3.0 |3.266667 |0.305505 |3.0 |3.100 |3.20 |3.400 |3.6
+|7.3 |1.0 |2.900000 |NaN |2.9 |2.900 |2.90 |2.900 |2.9
+|7.4 |1.0 |2.800000 |NaN |2.8 |2.800 |2.80 |2.800 |2.8
+|7.6 |1.0 |3.000000 |NaN |3.0 |3.000 |3.00 |3.000 |3.0
+|7.7 |4.0 |3.050000 |0.525991 |2.6 |2.750 |2.90 |3.200 |3.8
+|7.9 |1.0 |3.800000 |NaN |3.8 |3.800 |3.80 |3.800 |3.8
+|===
+----
+
+
+
+
+
+
++*In[1]:*+
+[source, ipython3]
+----
+#Forgeting to include import pandas
+url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+df = pd.read_csv(url)
+df.isna().sum()
+----
+
+
++*Out[1]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[1], line 3
+          1 #Forgeting to include import pandas
+          2 url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/villagers.csv"
+    ----> 3 df = pd.read_csv(url)
+          4 df.isna().sum()
+
+
+    NameError: name 'pd' is not defined
+
+----
+
+
+
+
+
+
++*In[6]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv"
+df = pd.read_csv(url)
+print(df.head())
+----
+
+
++*Out[6]:*+
+----
+   survived  pclass     sex   age  sibsp  parch     fare embarked  class  \
+0         0       3    male  22.0      1      0   7.2500        S  Third   
+1         1       1  female  38.0      1      0  71.2833        C  First   
+2         1       3  female  26.0      0      0   7.9250        S  Third   
+3         1       1  female  35.0      1      0  53.1000        S  First   
+4         0       3    male  35.0      0      0   8.0500        S  Third   
+
+     who  adult_male deck  embark_town alive  alone  
+0    man        True  NaN  Southampton    no  False  
+1  woman       False    C    Cherbourg   yes  False  
+2  woman       False  NaN  Southampton   yes   True  
+3  woman       False    C  Southampton   yes  False  
+4    man        True  NaN  Southampton    no   True  
+----
+
+
+
+
+
+
++*In[7]:*+
+[source, ipython3]
+----
+DF.describe()
+----
+
+
++*Out[7]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[7], line 1
+    ----> 1 DF.describe()
+
+
+    NameError: name 'DF' is not defined
+
+----
+
+
+
+
+
+
++*In[8]:*+
+[source, ipython3]
+----
+df.head(5
+----
+
+
++*Out[8]:*+
+----
+
+      Cell In[8], line 1
+        df.head(5
+                 ^
+    SyntaxError: incomplete input
+
+
+----
+
+
+
+
+
+
++*In[6]:*+
+[source, ipython3]
+----
+import pandas as pd
+url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv"
+df = pd.read_csv(url)
+df.group_by("sex")["survived"].describe()
+----
+
+
++*Out[6]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    AttributeError                            Traceback (most recent call last)
+
+    /tmp/ipykernel_52/42089572.py in ?()
+          1 import pandas as pd
+          2 url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv"
+          3 df = pd.read_csv(url)
+    ----> 4 df.group_by("sex")["survived"].describe()
+    
+
+    /opt/conda/lib/python3.11/site-packages/pandas/core/generic.py in ?(self, name)
+       6200             and name not in self._accessors
+       6201             and self._info_axis._can_hold_identifiers_and_holds_name(name)
+       6202         ):
+       6203             return self[name]
+    -> 6204         return object.__getattribute__(self, name)
+    
+
+    AttributeError: 'DataFrame' object has no attribute 'group_by'
+
+----
+
+
+
+
+
+
++*In[8]:*+
+[source, ipython3]
+----
+df.groupby("columnnull")["Survived"].describe()
+----
+
+
++*Out[8]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    KeyError                                  Traceback (most recent call last)
+
+    Cell In[8], line 1
+    ----> 1 df.groupby("columnnull")["Survived"].describe()
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/frame.py:8869, in DataFrame.groupby(self, by, axis, level, as_index, sort, group_keys, observed, dropna)
+       8866 if level is None and by is None:
+       8867     raise TypeError("You have to supply one of 'by' and 'level'")
+    -> 8869 return DataFrameGroupBy(
+       8870     obj=self,
+       8871     keys=by,
+       8872     axis=axis,
+       8873     level=level,
+       8874     as_index=as_index,
+       8875     sort=sort,
+       8876     group_keys=group_keys,
+       8877     observed=observed,
+       8878     dropna=dropna,
+       8879 )
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/groupby/groupby.py:1278, in GroupBy.__init__(self, obj, keys, axis, level, grouper, exclusions, selection, as_index, sort, group_keys, observed, dropna)
+       1275 self.dropna = dropna
+       1277 if grouper is None:
+    -> 1278     grouper, exclusions, obj = get_grouper(
+       1279         obj,
+       1280         keys,
+       1281         axis=axis,
+       1282         level=level,
+       1283         sort=sort,
+       1284         observed=False if observed is lib.no_default else observed,
+       1285         dropna=self.dropna,
+       1286     )
+       1288 if observed is lib.no_default:
+       1289     if any(ping._passed_categorical for ping in grouper.groupings):
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/groupby/grouper.py:1009, in get_grouper(obj, key, axis, level, sort, observed, validate, dropna)
+       1007         in_axis, level, gpr = False, gpr, None
+       1008     else:
+    -> 1009         raise KeyError(gpr)
+       1010 elif isinstance(gpr, Grouper) and gpr.key is not None:
+       1011     # Add key to exclusions
+       1012     exclusions.add(gpr.key)
+
+
+    KeyError: 'columnnull'
+
+----
+
+
+
+
+
+
++*In[9]:*+
+[source, ipython3]
+----
+df.groupby(survived)["embarked"].describe()
+----
+
+
++*Out[9]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[9], line 1
+    ----> 1 df.groupby(survived)["embarked"].describe()
+
+
+    NameError: name 'survived' is not defined
+
+----
+
+
++*In[10]:*+
+[source, ipython3]
+----
+df.groupby("Survived")["embarked"].describe()
+----
+
+
++*Out[10]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    KeyError                                  Traceback (most recent call last)
+
+    Cell In[10], line 1
+    ----> 1 df.groupby("Survived")["embarked"].describe()
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/frame.py:8869, in DataFrame.groupby(self, by, axis, level, as_index, sort, group_keys, observed, dropna)
+       8866 if level is None and by is None:
+       8867     raise TypeError("You have to supply one of 'by' and 'level'")
+    -> 8869 return DataFrameGroupBy(
+       8870     obj=self,
+       8871     keys=by,
+       8872     axis=axis,
+       8873     level=level,
+       8874     as_index=as_index,
+       8875     sort=sort,
+       8876     group_keys=group_keys,
+       8877     observed=observed,
+       8878     dropna=dropna,
+       8879 )
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/groupby/groupby.py:1278, in GroupBy.__init__(self, obj, keys, axis, level, grouper, exclusions, selection, as_index, sort, group_keys, observed, dropna)
+       1275 self.dropna = dropna
+       1277 if grouper is None:
+    -> 1278     grouper, exclusions, obj = get_grouper(
+       1279         obj,
+       1280         keys,
+       1281         axis=axis,
+       1282         level=level,
+       1283         sort=sort,
+       1284         observed=False if observed is lib.no_default else observed,
+       1285         dropna=self.dropna,
+       1286     )
+       1288 if observed is lib.no_default:
+       1289     if any(ping._passed_categorical for ping in grouper.groupings):
+
+
+    File /opt/conda/lib/python3.11/site-packages/pandas/core/groupby/grouper.py:1009, in get_grouper(obj, key, axis, level, sort, observed, validate, dropna)
+       1007         in_axis, level, gpr = False, gpr, None
+       1008     else:
+    -> 1009         raise KeyError(gpr)
+       1010 elif isinstance(gpr, Grouper) and gpr.key is not None:
+       1011     # Add key to exclusions
+       1012     exclusions.add(gpr.key)
+
+
+    KeyError: 'Survived'
+
+----
+
+
+
+
+
+
+
+
+
+
+
+
